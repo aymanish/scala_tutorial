@@ -8,6 +8,7 @@ package com.rockthejvm
   *
   * Daniel @ Rock the JVM
   * Ayman Tutorial Version
+  * Current lecture: Setup
   */
 object Playground extends App {
   println("I love Scala!")
