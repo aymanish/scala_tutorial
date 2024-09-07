@@ -51,7 +51,7 @@ object Basics extends App {
 
   // Functions:
   // defining functions
-  // def name_function(arg1: agr1_type, arg2: arg2_type): return_type = expression
+  // def name_function(arg1: agr1_type, arg2: arg2_type): return_type = expression/code-block
   def myFunction(x: Int, y: String): String = {
     y + " " + x
   }
