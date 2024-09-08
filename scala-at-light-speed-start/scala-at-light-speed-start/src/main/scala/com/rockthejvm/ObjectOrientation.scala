@@ -114,14 +114,92 @@ class ObjectOrientation extends App {
   // so val dinosaur = new carnivore_anonymous_248y39
 
 
-  // Scala does this vis Singleton Object
+  // Scala does this via Singleton Object
+  // mysingleton is the object instance of the mysingleton type
+  object MySingleton {
+    val mySpecialValue = 767
+    def mySpecialMethod(): Int = 7677
+    // Special method in scala: apply()
+    // takes any args, present in any class, any object
+    def apply(x: Int): Int = x + 1
+  }
 
 
+  MySingleton.mySpecialMethod()
+  // Apply method allows instances of that class to call the applied method in the following way:
+  MySingleton.apply(65)
+  MySingleton(65)
+  // Both above are valid
+  // Does this mean each class / object can only have 1 apply method?
+  // Essentially it allows instances of a class to be invoked as a function
+  // we invoke mysingleton with the argument 65
+
+  // Singletons: Companions
+  // We can create a class and object of the same name
+  // The class Animal and the object Animal are companions.
+  object Animal { // companion object
+    // companions can access each others private fields or methods
+    // singleton animal above and instances of animal are different things
+    val canLiveIndefinitely = false
+  }
+  val animalsCanLiveForever = Animal.canLiveIndefinitely
+  // we access the canLiveIndefinitely field on the animal singleton object
+  // in the same way you access static fields in Java or C++
 
 
+  // Case classes are lightweight data structures with some boilerplate
+  // When defining the case class person
+  // the compiler generates
+  // - auto implements equals() and hashcode() and copy() -> no need to write custom comparison logic
+  // - sensible and quick serialization: bc we often send these instances over the wire in distributed systems
+  //   for example with akka
+  // - pattern matching (WIP)
+  case class Person(name: String, age: Int)
+  // they have built in companions with apply
+  // makes case classes being constructed easily without the keyword new
+  val bob = Person("Bob", 54) // similar to mysingleton invoking args
 
+  // Exceptions:
+  // Scala runs on the JVM so scala code is compiled to JVM bytecode
+  // It can then be run Won every device that has JVM installed
+  try {
+    //code that can throw an exception
+    val x: String = null
+    x.length // cant get length from null empty
+  } catch {
+    case e: Exception => "error message"
+  } finally {
+    // execute some code always at the end - the stuff above are error and sanity checks
+    // useful for closing connections or files or releasing resources
+    // that would otherwise be dangerous to leave open
+  }
 
+  // Generics:
+  // applicable to abstract classes, classes, traits
+  // list is applicable to any type that we denote as T
+  abstract class MyList[T] {
+    // we can have definitions(functions) or values that depend on this type T
+    def head: T // returns an element of type T
+    // why not def head(): | no parenthesis for args?T
+    def tail: MyList[T] // returns list of type T
+    // when you use these definitions later the T becomes concrete
+  }
 
+  // Using a genetic with concrete type Int
+  // List[T] == Lint[Int]
+  val aList: List[Int] = List(1,2,3) // list.apply(1,2,3)
+  val first = aList.head // whatever concrete type aList has becomes the generic type
+  // hence first of type T becomes Int
+  val rest = aList.tail
+  // We are reusing the same functionality and applying to multiple types without needing to create functionality for each type
 
+  // Point 1: In Scala we usually operate with IMMUTABLE VALUES
+  // Any modification to an instance of a class should result (best practice) in another instance
+  val reversedList = aList.reverse // returns a new list -> does not mutate the same list
+  // Benefits:
+  // 1) Works miracles in multithreaded/distributed environments
+  // 2) Helps making sense about the code
 
+  // Point 2: Scala is closest to the OOP ideal
 }
+
