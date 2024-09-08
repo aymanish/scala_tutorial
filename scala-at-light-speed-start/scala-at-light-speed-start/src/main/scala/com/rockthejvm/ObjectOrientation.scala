@@ -1,6 +1,6 @@
 package com.rockthejvm
 
-class ObjectOrientation extends App {
+object ObjectOrientation extends App {
 
   // classes and instances
   class Animal {
